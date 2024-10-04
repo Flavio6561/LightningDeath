@@ -1,0 +1,8 @@
+{
+  "title.lightningdeath.config": "Lightning Death Configuration",
+  "category.lightningdeath.general": "General Settings",
+  "option.lightningdeath.ignoreSelf": "Ignore Self",
+  "tooltip.lightningdeath.ignoreSelf": "Whether to include yourself as a bolt spawning source",
+  "option.lightningdeath.lightningCount": "Lightning Count",
+  "tooltip.lightningdeath.lightningCount": "Number of lightning bolts summoned on player death (0 disables the mod)"
+}
