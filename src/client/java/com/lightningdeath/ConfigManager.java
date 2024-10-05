@@ -4,18 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import net.fabricmc.loader.api.FabricLoader;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 
 public class ConfigManager {
     private static Config config;
-    private static final Path configPath = FabricLoader.getInstance().getConfigDir().resolve("lightningDeath.6561");
+    private static final Path configPath = FabricLoader.getInstance().getConfigDir().resolve("LightningDeath.json");
 
     private static class Config {
-        boolean ignoreSelf;
+        boolean includePlayer;
         int lightningCount;
     }
 
@@ -39,13 +36,13 @@ public class ConfigManager {
 
     private static void restoreDefaultConfig() {
         config = new Config();
-        config.ignoreSelf = LightningDeathClient.isIgnoreSelf();
+        config.includePlayer = LightningDeathClient.isIncludePlayer();
         config.lightningCount = LightningDeathClient.getLightningCount();
         saveConfig();
     }
 
     private static void applyConfig() {
-        LightningDeathClient.setIgnoreSelf(config.ignoreSelf);
+        LightningDeathClient.setIncludePlayer(config.includePlayer);
         LightningDeathClient.setLightningCount(config.lightningCount);
     }
 
@@ -53,7 +50,7 @@ public class ConfigManager {
         Gson gson = new Gson();
         File configFile = configPath.toFile();
         Config currentConfig = new Config();
-        currentConfig.ignoreSelf = LightningDeathClient.isIgnoreSelf();
+        currentConfig.includePlayer = LightningDeathClient.isIncludePlayer();
         currentConfig.lightningCount = LightningDeathClient.getLightningCount();
 
         try (FileWriter writer = new FileWriter(configFile)) {

@@ -9,20 +9,17 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
 import java.util.*;
 
 public class LightningDeathClient implements ClientModInitializer {
-	private static boolean ignoreSelf = false;
+	private static boolean includePlayer = true;
 	private static int lightningCount = 1;
 	private static boolean isModMenuEnabled = false;
-
 	private int remainingBolts = 0;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LightningDeathClient.class);
-
 	private final Map<PlayerEntity, BlockPos> playerDeathPositions = new HashMap<>();
 
 	@Override
@@ -48,7 +45,7 @@ public class LightningDeathClient implements ClientModInitializer {
 
 		for (PlayerEntity player : world.getPlayers()) {
 			if (player.isDead()) {
-				if (ignoreSelf && player == client.player) {
+				if (!includePlayer && player == client.player) {
 					BlockPos deathPos = player.getBlockPos();
 					playerDeathPositions.put(player, deathPos);
 				}
@@ -90,13 +87,10 @@ public class LightningDeathClient implements ClientModInitializer {
 	}
 
 	private void logLightningBoltStatus(PlayerEntity player) {
-		String playerName = player.getName().getString();
-		String coordinates = player.getBlockPos().toShortString();
-
 		if (lightningCount == 1) {
-			LOGGER.info("{}'s lightning bolt displayed successfully at coordinates: {}", playerName, coordinates);
+			LOGGER.info("{}'s lightning bolt displayed successfully at coordinates: {}", player.getName().getString(), player.getBlockPos().toShortString());
 		} else {
-			LOGGER.info("{}'s {} lightning bolts displayed successfully at coordinates: {}", playerName, lightningCount, coordinates);
+			LOGGER.info("{}'s {} lightning bolts displayed successfully at coordinates: {}", player.getName().getString(), lightningCount, player.getBlockPos().toShortString());
 		}
 	}
 
@@ -107,8 +101,8 @@ public class LightningDeathClient implements ClientModInitializer {
 		}
 	}
 
-	public static void setIgnoreSelf(boolean ignoreSelf) {
-		LightningDeathClient.ignoreSelf = ignoreSelf;
+	public static void setIncludePlayer(boolean includePlayer) {
+		LightningDeathClient.includePlayer = includePlayer;
 		ConfigManager.saveConfig();
 	}
 
@@ -121,8 +115,8 @@ public class LightningDeathClient implements ClientModInitializer {
 		LightningDeathClient.isModMenuEnabled = isModMenuEnabled;
 	}
 
-	public static boolean isIgnoreSelf() {
-		return ignoreSelf;
+	public static boolean isIncludePlayer() {
+		return includePlayer;
 	}
 
 	public static int getLightningCount() {

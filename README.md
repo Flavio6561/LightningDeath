@@ -1,30 +1,31 @@
 ## Lightning Death,
-a simple cliend side mod that spawns a lightning bolt on a player death position
+a simple client side mod that spawns a lightning bolt on a player death position
 
 ### Configs:
 
 - **`LightningCount`** How many bolts should a player spawn when dead
-> ![Bolts](https://i.imgur.com/pyEYVzn.gif)  
-> `value = 0 will disable the mod`
-
-- **`IgnoreSelf`** Whether to include yourself as a bolt spawning souce
-> ![OwnDeath](https://i.imgur.com/f1L9JnG.gif)  
-> `On the right, the player does not summon a bolt`
+> ![Bolts](https://i.imgur.com/uk3Ikzk.gif)  
+> `on the right, LightningCount is set to 5`
+- **`IncludePlayer`** Whether to summon a lightning when you die
 
 ### Configs:
-- **ModMenu integration**:
 > - ModMenu is supported
+> ![ModMenu](https://cdn.modrinth.com/data/cached_images/b06bbe6ae56458da925209028803830b21c22fde_0.webp)
 > - Commands are reserved to non-ModMenu users only
 > - Mod settings will be saved in your config folder and updated at runtime.
 
 - **Commands**:
-> - `/ld SetLightningCount <value (0,20)>`
-> - `/ld ignoreSelf <bool (true or false)>`
+> - `/ld LightningCount <0... 20>` `(0 > disable)`
+> - `/ld IncludePlayer <true, false)>`
 
 ### Other:
-> ![DoLog](https://cdn.modrinth.com/data/cached_images/c46a670261ed4cbf243e17ccd78034514d6ab4ad.png)  
-> `In your latest.log there is the info about the last player death`
+> ![Log](https://cdn.modrinth.com/data/cached_images/16d018049bf4a22d310045ae3738951df31098f0.png)
+> `Last player death info will be put in minecraft log`
 
-> The mod is entirely client side, this will make the mod work on servers, but will not affect server iteractions
+> The mod is entirely client side, this will make the mod work on servers, but will not affect server interactions
 
-[Any issue with the mod?](https://github.com/Flavio6561/LightningDeath/issues)
+### Links:
+> [GitHub page](https://github.com/Flavio6561/LightningDeath)  
+> [Modrinth page](https://modrinth.com/mod/lightningdeath)  
+> [Changelogs](https://github.com/Flavio6561/LightningDeath/wiki/Version-changelogs)  
+> [Report an issue](https://github.com/Flavio6561/LightningDeath/issues)
