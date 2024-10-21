@@ -26,7 +26,7 @@ public class LightningDeathClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		ConfigManager.loadConfig();
 		ClientTickEvents.END_CLIENT_TICK.register(this::handlePlayerDeaths);
-		LOGGER.info("LightningDeath Initialized with success");
+		LOGGER.info("LightningDeath initialized with success");
 	}
 
 	private void handlePlayerDeaths(MinecraftClient client) {
@@ -111,8 +111,8 @@ public class LightningDeathClient implements ClientModInitializer {
 		ConfigManager.saveConfig();
 	}
 
-	public static void setModMenuEnabled(boolean isModMenuEnabled) {
-		LightningDeathClient.isModMenuEnabled = isModMenuEnabled;
+	public static void setModMenuEnabled() {
+		isModMenuEnabled = true;
 	}
 
 	public static boolean isIncludePlayer() {
