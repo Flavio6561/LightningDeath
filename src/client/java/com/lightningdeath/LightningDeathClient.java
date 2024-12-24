@@ -78,7 +78,7 @@ public class LightningDeathClient implements ClientModInitializer {
 	}
 
 	private void displayLightningBolt(ClientWorld world, BlockPos deathPos) {
-		Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(world);
+		Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(world, null);
 		if (lightningBolt == null) {
 			return;
 		}
