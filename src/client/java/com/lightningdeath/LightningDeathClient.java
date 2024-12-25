@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
 import org.slf4j.*;
 
 import java.util.*;
@@ -20,7 +19,7 @@ public class LightningDeathClient implements ClientModInitializer {
 	private int remainingBolts = 0;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LightningDeathClient.class);
-	private final Map<PlayerEntity, BlockPos> playerDeathPositions = new HashMap<>();
+	private final Map<PlayerEntity, BlockPosition> playerDeathPositions = new HashMap<>();
 
 	@Override
 	public void onInitializeClient() {
@@ -30,75 +29,54 @@ public class LightningDeathClient implements ClientModInitializer {
 	}
 
 	private void handlePlayerDeaths(MinecraftClient client) {
-		if (client.isFinishedLoading() && !isModMenuEnabled) {
+		if (client.isFinishedLoading() && !isModMenuEnabled)
 			CommandRegister.registerCommands();
-		}
-		if (client.world == null) {
+		if (client.world == null || lightningCount == 0)
 			return;
-		}
-		if (lightningCount == 0) {
-			return;
-		}
 
 		ClientWorld world = client.world;
 		List<PlayerEntity> playersToRemove = new ArrayList<>();
 
 		for (PlayerEntity player : world.getPlayers()) {
 			if (player.isDead()) {
-				if (!includePlayer && player == client.player) {
-					BlockPos deathPos = player.getBlockPos();
+				BlockPosition deathPos = new BlockPosition(player.getX(), player.getY(), player.getZ());
+				if (!includePlayer && player == client.player)
 					playerDeathPositions.put(player, deathPos);
-				}
-				if (remainingBolts != 0) {
-					spawnBolts(world, player.getBlockPos());
-				}
+				if (remainingBolts != 0)
+					spawnBolts(world, deathPos);
 				if (!playerDeathPositions.containsKey(player)) {
-					BlockPos deathPos = player.getBlockPos();
 					playerDeathPositions.put(player, deathPos);
 					remainingBolts = lightningCount;
-					spawnBolts(world, player.getBlockPos());
-					logLightningBoltStatus(player);
+					spawnBolts(world, deathPos);
 				}
-			} else {
+			} else
 				playersToRemove.add(player);
-			}
 		}
 		removeAlivePlayersFromTracking(playersToRemove);
 	}
 
 	private void removeAlivePlayersFromTracking(List<PlayerEntity> playersToRemove) {
-		for (PlayerEntity player : playersToRemove) {
+		for (PlayerEntity player : playersToRemove)
 			playerDeathPositions.remove(player);
-		}
 	}
 
-	private void spawnBolts (ClientWorld world, BlockPos deathPos) {
+	private void spawnBolts(ClientWorld world, BlockPosition deathPos) {
 		remainingBolts--;
 		displayLightningBolt(world, deathPos);
 	}
 
-	private void displayLightningBolt(ClientWorld world, BlockPos deathPos) {
+	private void displayLightningBolt(ClientWorld world, BlockPosition deathPos) {
 		Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(world, null);
-		if (lightningBolt == null) {
+		if (lightningBolt == null)
 			return;
-		}
-		lightningBolt.updatePosition(deathPos.getX(), deathPos.getY(), deathPos.getZ());
+		lightningBolt.updatePosition(deathPos.x(), deathPos.y(), deathPos.z());
 		world.addEntity(lightningBolt);
-	}
-
-	private void logLightningBoltStatus(PlayerEntity player) {
-		if (lightningCount == 1) {
-			LOGGER.info("{}'s lightning bolt displayed successfully at coordinates: {}", player.getName().getString(), player.getBlockPos().toShortString());
-		} else {
-			LOGGER.info("{}'s {} lightning bolts displayed successfully at coordinates: {}", player.getName().getString(), lightningCount, player.getBlockPos().toShortString());
-		}
 	}
 
 	public static void sendMessageToPlayer(String chat_message) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		if (client.player != null) {
+		if (client.player != null)
 			client.player.sendMessage(Text.literal(chat_message), false);
-		}
 	}
 
 	public static void setIncludePlayer(boolean includePlayer) {
