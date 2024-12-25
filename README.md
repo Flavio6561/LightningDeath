@@ -3,26 +3,26 @@ a client side mod that spawns a lightning bolt on a player death position
 
 ### Mod features:
 
-- **`LightningCount`** How many bolts should a player spawn when dead
+- **`LightningCount`** How many bolts should spawn in the player death position
 > ![ModShowcaseGif](https://raw.githubusercontent.com/Flavio6561/Gallery/refs/heads/main/Lightning.gif)  
 > `on the right, LightningCount is set to 5`
-- **`IncludePlayer`** Whether to summon a lightning when you die
+- **`IncludePlayer`** Whether to summon a lightning on your (playing character) death position
 
-### Config:
-> - ModMenu is supported
-> ![ModMenuConfigScreen](https://raw.githubusercontent.com/Flavio6561/Gallery/refs/heads/main/ModMenuExample.png)
-> - Settings will be saved in your config folder and updated at runtime
+### ModMenu config:
 
-- **Commands**:
->     Commands are reserved to non-ModMenu users only
+- GUI config is accessible from the ModMenu mods list
+>![ModMenuConfigScreen](https://raw.githubusercontent.com/Flavio6561/Gallery/refs/heads/main/ModMenuExample.png)
+>`the ModMenu config screen with default values`
+
+### Command config:
+- Commands are reserved to non-ModMenu users only
 > - `/ld LightningCount <0... 20>`
 > - `/ld IncludePlayer <true, false)>`
 
 ### Other:
-> ![LogExample](https://raw.githubusercontent.com/Flavio6561/Gallery/refs/heads/main/LogExaple.png)  
-> `Last player death info will be put in minecraft log`
+> If you plan using ModMenu install ClothConfigAPI to access the config screen  
 
-> If you plan using ModMenu, install ClothConfigAPI to access the config screen  
+> Settings will be saved in your config folder and updated at runtime
 
 > The mod is entirely client side, this will make the mod work on servers, but will not affect server interactions
 
