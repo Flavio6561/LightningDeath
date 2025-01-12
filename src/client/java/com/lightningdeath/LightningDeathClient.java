@@ -25,28 +25,32 @@ public class LightningDeathClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		ConfigManager.loadConfig();
 		CommandRegister.registerCommands();
-		WorldRenderEvents.END.register(context -> handlePlayerDeaths(MinecraftClient.getInstance()));
+		WorldRenderEvents.END.register(context -> manageLightningDeaths(MinecraftClient.getInstance()));
 		LOGGER.info("LightningDeath initialized with success");
 	}
 
-	private void handlePlayerDeaths(MinecraftClient client) {
+	private void manageLightningDeaths(MinecraftClient client) {
 		ClientWorld world = client.world;
 		if (world == null || !toggleMod)
 			return;
+
+		List<PlayerEntity> toRemove = new ArrayList<>();
+		List<PlayerEntity> toAdd = new ArrayList<>();
+
 		for (PlayerEntity player : world.getPlayers()) {
 			if (!player.isDead())
-				ignoredPlayers.remove(player);
-			else if (!ignoredPlayers.contains(player)) {
-				if (player.isMainPlayer() && !includePlayer)
-					return;
-				ignoredPlayers.add(player);
+				toRemove.add(player);
+			else if (!ignoredPlayers.contains(player) && (!player.isMainPlayer() || includePlayer)) {
+				toAdd.add(player);
 				Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(world, null);
-				if (lightningBolt == null)
-					return;
-				lightningBolt.updatePosition(player.getX(), player.getY(), player.getZ());
-				world.addEntity(lightningBolt);
+				if (lightningBolt != null) {
+					lightningBolt.updatePosition(player.getX(), player.getY(), player.getZ());
+					world.addEntity(lightningBolt);
+				}
 			}
 		}
+		ignoredPlayers.removeAll(toRemove);
+		ignoredPlayers.addAll(toAdd);
 	}
 
 	public static void sendMessageToPlayer(String chat_message) {
@@ -73,7 +77,7 @@ public class LightningDeathClient implements ClientModInitializer {
 		return includePlayer;
 	}
 
-	public static int toggleMod(CommandContext<FabricClientCommandSource> fabricClientCommandSourceCommandContext) {
+	public static int toggleMod(CommandContext<FabricClientCommandSource> ignoredFabricClientCommandSourceCommandContext) {
 		if (toggleMod) {
 			setToggleMod(false);
 			sendMessageToPlayer("Mod is now disabled");
@@ -84,7 +88,7 @@ public class LightningDeathClient implements ClientModInitializer {
 		return 1;
 	}
 
-	public static int toggleIncludePlayer(CommandContext<FabricClientCommandSource> fabricClientCommandSourceCommandContext) {
+	public static int toggleIncludePlayer(CommandContext<FabricClientCommandSource> ignoredFabricClientCommandSourceCommandContext) {
 		if (includePlayer) {
 			setIncludePlayer(false);
 			sendMessageToPlayer("Now lightning bolts will NOT spawn on your character");
