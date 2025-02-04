@@ -7,10 +7,16 @@
 	"authors": [
 		"Flavio6561"
 	],
-	"contact": {
-		"sources": "https://github.com/Flavio6561/LightningDeath",
-		"issues": "https://github.com/Flavio6561/LightningDeath/issues",
-		"homepage": "https://github.com/Flavio6561/LightningDeath"
+	"custom" : {
+		"fabric-renderer-api-v1:contains_renderer" : true,
+		"modmenu" : {
+			"links" : {
+				"GitHub": "https://github.com/Flavio6561/LightningDeath",
+				"Modrinth page": "https://modrinth.com/mod/lightningdeath",
+				"Changelogs" : "https://github.com/Flavio6561/LightningDeath/wiki/Version-changelogs",
+				"GitHub Issues": "https://github.com/Flavio6561/LightningDeath/issues"
+			}
+		}
 	},
 	"icon": "assets/lightningdeath/icon.png",
 	"environment": "*",

@@ -34,22 +34,27 @@ public class ConfigManager {
 
     private static void restoreDefaultConfig() {
         config = new Config();
-        config.toggleMod = LightningDeathClient.isToggleMod();
-        config.includePlayer = LightningDeathClient.isIncludePlayer();
+        config.toggleMod = LightningDeathClient.toggleMod;
+        config.includePlayer = LightningDeathClient.includePlayer;
+
         saveConfig();
     }
 
     private static void applyConfig() {
-        LightningDeathClient.setToggleMod(config.toggleMod);
-        LightningDeathClient.setIncludePlayer(config.includePlayer);
+        LightningDeathClient.toggleMod = config.toggleMod;
+        LightningDeathClient.includePlayer = config.includePlayer;
+
+        saveConfig();
     }
 
     public static void saveConfig() {
         Gson gson = new Gson();
         File configFile = configPath.toFile();
         Config currentConfig = new Config();
-        currentConfig.toggleMod = LightningDeathClient.isToggleMod();
-        currentConfig.includePlayer = LightningDeathClient.isIncludePlayer();
+
+        currentConfig.toggleMod = LightningDeathClient.toggleMod;
+        currentConfig.includePlayer = LightningDeathClient.includePlayer;
+
         try (FileWriter writer = new FileWriter(configFile)) {
             gson.toJson(currentConfig, writer);
         } catch (IOException exception) {
