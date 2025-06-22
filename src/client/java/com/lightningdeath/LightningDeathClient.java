@@ -8,10 +8,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LightningDeathClient implements ClientModInitializer {
-	private static final List<PlayerEntity> ignoredPlayers = new ArrayList<>();
+	private static final ArrayList<PlayerEntity> ignoredPlayers = new ArrayList<>();
 
 	@Override
 	public void onInitializeClient() {
@@ -27,7 +26,7 @@ public class LightningDeathClient implements ClientModInitializer {
 				toRemove.add(player);
 			else if (!ignoredPlayers.contains(player)) {
 				toAdd.add(player);
-				Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(context.world(), null);
+				Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(context.world());
 				if (lightningBolt != null) {
 					lightningBolt.updatePosition(player.getX(), player.getY(), player.getZ());
 					context.world().addEntity(lightningBolt);
