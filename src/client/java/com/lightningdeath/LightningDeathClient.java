@@ -8,10 +8,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LightningDeathClient implements ClientModInitializer {
-	private static final List<PlayerEntity> ignoredPlayers = new ArrayList<>();
+	private static final ArrayList<PlayerEntity> ignoredPlayers = new ArrayList<>();
 
 	@Override
 	public void onInitializeClient() {
