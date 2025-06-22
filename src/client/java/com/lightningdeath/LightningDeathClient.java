@@ -29,7 +29,7 @@ public class LightningDeathClient implements ClientModInitializer {
 				Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(context.world());
 				if (lightningBolt != null) {
 					lightningBolt.updatePosition(player.getX(), player.getY(), player.getZ());
-					context.world().addEntity(lightningBolt);
+					context.world().addEntity(context.world().getRegularEntityCount() + 1, lightningBolt);
 				}
 			}
 		}

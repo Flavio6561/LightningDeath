@@ -1,4 +1,4 @@
-## Lightning Death branch for 1.20.2 - 1.20.4
+## Lightning Death branch for 1.20 - 1.20.1
 
 ### See [master](https://github.com/Flavio6561/LightningDeath)
 
