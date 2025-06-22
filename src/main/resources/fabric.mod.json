@@ -7,8 +7,12 @@
 	"authors": [
 		"Flavio6561"
 	],
+	"license": "GPL-3.0",
+	"contact": {
+		"issues": "https://github.com/Flavio6561/LightningDeath/issues",
+		"homepage": "https://github.com/Flavio6561/LightningDeath"
+	},
 	"custom" : {
-		"fabric-renderer-api-v1:contains_renderer" : true,
 		"modmenu" : {
 			"links" : {
 				"GitHub": "https://github.com/Flavio6561/LightningDeath",
@@ -19,7 +23,6 @@
 		}
 	},
 	"icon": "assets/lightningdeath/icon.png",
-	"environment": "*",
 	"entrypoints": {
 		"client": [
 			"com.lightningdeath.LightningDeathClient"
