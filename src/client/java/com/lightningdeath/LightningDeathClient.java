@@ -5,8 +5,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.level.entity.TransientEntitySectionManager;
@@ -30,7 +29,7 @@ public class LightningDeathClient implements ClientModInitializer {
                 toRemove.add(player);
             else if (!ignoredPlayers.contains(player)) {
                 toAdd.add(player);
-                Entity lightningBolt = EntityTypes.LIGHTNING_BOLT.create(clientLevel, (EntitySpawnReason) null);
+                Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(clientLevel, null);
                 if (lightningBolt != null) {
                     TransientEntitySectionManager<Entity> storage = ((ClientLevelAccessor) clientLevel).getEntityStorage();
                     int id = storage.count() + 1;
