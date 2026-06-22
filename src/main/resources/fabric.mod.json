@@ -1,41 +1,45 @@
 {
-	"schemaVersion": 1,
-	"id": "lightningdeath",
-	"version": "${version}",
-	"name": "LightningDeath",
-	"description": "Spawns a lightning bolt on a player death position",
-	"authors": [
-		"Flavio6561"
-	],
-	"license": "GPL-3.0",
-	"contact": {
-		"issues": "https://github.com/Flavio6561/LightningDeath/issues",
-		"homepage": "https://github.com/Flavio6561/LightningDeath"
-	},
-	"custom" : {
-		"modmenu" : {
-			"links" : {
-				"GitHub": "https://github.com/Flavio6561/LightningDeath",
-				"Modrinth page": "https://modrinth.com/mod/lightningdeath",
-				"Changelogs" : "https://github.com/Flavio6561/LightningDeath/wiki/Version-changelogs",
-				"GitHub Issues": "https://github.com/Flavio6561/LightningDeath/issues"
-			}
-		}
-	},
-	"icon": "assets/lightningdeath/icon.png",
-	"entrypoints": {
-		"client": [
-			"com.lightningdeath.LightningDeathClient"
-		]
-	},
-	"depends": {
-		"fabricloader": ">=0.16.14",
-		"minecraft": [
-          "1.21.9",
-          "1.21.10",
-          "1.21.11"
-        ],
-		"java": ">=21",
-		"fabric-api": "*"
-	}
+  "schemaVersion": 1,
+  "id": "lightningdeath",
+  "version": "${version}",
+  "name": "LightningDeath",
+  "description": "Spawns a lightning bolt on a player death position",
+  "authors": [
+    "Flavio6561"
+  ],
+  "license": "GPL-3.0",
+  "contact": {
+    "issues": "https://github.com/Flavio6561/LightningDeath/issues",
+    "homepage": "https://github.com/Flavio6561/LightningDeath"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "GitHub": "https://github.com/Flavio6561/LightningDeath",
+        "Modrinth page": "https://modrinth.com/mod/lightningdeath",
+        "Changelogs": "https://github.com/Flavio6561/LightningDeath/wiki/Version-changelogs",
+        "GitHub Issues": "https://github.com/Flavio6561/LightningDeath/issues"
+      }
+    }
+  },
+  "icon": "assets/lightningdeath/icon.png",
+  "entrypoints": {
+    "client": [
+      "com.lightningdeath.LightningDeathClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "lightningdeath.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": [
+      "26.2"
+    ],
+    "java": ">=25",
+    "fabric-api": "*"
+  }
 }

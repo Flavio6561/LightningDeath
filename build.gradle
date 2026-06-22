@@ -1,48 +1,52 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
-	id 'maven-publish'
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'maven-publish'
     id "com.modrinth.minotaur" version "2.8.10"
 }
 
+minecraft_version = project.minecraft_version
 version = project.mod_version
 group = project.maven_group
 
 base {
-	archivesName = project.archives_base_name
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://maven.terraformersmc.com/releases/" }
 }
 
 loom {
-	splitEnvironmentSourceSets()
-	mods {
-		"lightningdeath" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
+    splitEnvironmentSourceSets()
+    mods {
+        "lightningdeath" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 processResources {
-	inputs.property "version", project.version
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+    it.options.release = 25
 }
 
 java {
-	withSourcesJar()
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 modrinth {
@@ -51,9 +55,9 @@ modrinth {
     versionNumber = "${project.version}"
     versionName = "Lightning Death ${project.version}"
     changelog = "[Version ${project.version}](https://github.com/Flavio6561/LightningDeath/wiki/Version-changelogs)"
-    uploadFile = remapJar
+    uploadFile = jar
     versionType = "release"
-    gameVersions = ["1.21.9", "1.21.10", "1.21.11"]
+    gameVersions = ["26.2"]
     loaders = ["fabric", "quilt"]
 
     dependencies {
@@ -61,4 +65,4 @@ modrinth {
     }
 }
 
-tasks.modrinth.dependsOn(tasks.remapJar)
+tasks.modrinth.dependsOn(tasks.jar)

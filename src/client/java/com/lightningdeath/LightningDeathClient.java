@@ -1,36 +1,47 @@
 package com.lightningdeath;
 
+import com.lightningdeath.mixin.client.ClientLevelAccessor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.entity.LevelEntityGetter;
+import net.minecraft.world.level.entity.TransientEntitySectionManager;
 
 import java.util.ArrayList;
 
 public class LightningDeathClient implements ClientModInitializer {
-	private static final ArrayList<PlayerEntity> ignoredPlayers = new ArrayList<>();
+    private static final ArrayList<Player> ignoredPlayers = new ArrayList<>();
 
-	@Override
-	public void onInitializeClient() {
-        ClientTickEvents.END_WORLD_TICK.register(LightningDeathClient::lightningDeathMain);
-	}
+    @Override
+    public void onInitializeClient() {
+        ClientTickEvents.END_LEVEL_TICK.register(LightningDeathClient::lightningDeathMain);
+    }
 
-    private static void lightningDeathMain(ClientWorld clientWorld) {
-        ArrayList<PlayerEntity> toAdd = new ArrayList<>();
-        ArrayList<PlayerEntity> toRemove = new ArrayList<>();
+    private static void lightningDeathMain(ClientLevel clientLevel) {
+        ArrayList<Player> toAdd = new ArrayList<>();
+        ArrayList<Player> toRemove = new ArrayList<>();
 
-        for (PlayerEntity player : ((World) clientWorld).getPlayers()) {
-            if (!player.isDead())
+        for (Player player : clientLevel.players()) {
+            if (!player.isDeadOrDying())
                 toRemove.add(player);
             else if (!ignoredPlayers.contains(player)) {
                 toAdd.add(player);
-                Entity lightningBolt = EntityType.LIGHTNING_BOLT.create(clientWorld, null);
+                Entity lightningBolt = EntityTypes.LIGHTNING_BOLT.create(clientLevel, (EntitySpawnReason) null);
                 if (lightningBolt != null) {
-                    lightningBolt.updatePosition(player.getX(), player.getY(), player.getZ());
-                    clientWorld.addEntity(lightningBolt);
+                    TransientEntitySectionManager<Entity> storage = ((ClientLevelAccessor) clientLevel).getEntityStorage();
+                    int id = storage.count() + 1;
+
+                    LevelEntityGetter<Entity> entityGetter = storage.getEntityGetter();
+                    while (entityGetter.get(id) != null)
+                        id++;
+
+                    lightningBolt.setId(id);
+                    lightningBolt.absSnapTo(player.getX(), player.getY(), player.getZ());
+                    storage.addEntity(lightningBolt);
                 }
             }
         }

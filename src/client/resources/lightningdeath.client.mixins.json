@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.lightningdeath.mixin.client",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "ClientLevelAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
